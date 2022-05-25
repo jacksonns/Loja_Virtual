@@ -20,5 +20,8 @@ class Item(): # Representa um item à venda no marketplace
         self.price = price
         self.stock = stock
 
-    def get_price(self) -> tuple[int,int]:
+    def get_price(self) -> tuple[int, int]:
         return self.price
+    
+    def get_id(self) -> str:
+        return self.id
