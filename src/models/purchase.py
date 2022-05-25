@@ -1,6 +1,6 @@
-from session import Session
-from coupon import Coupon
-from address import Address
+from src.models.session import Session
+from src.models.coupon import Coupon
+from src.models.address import Address
 
 class Purchase(): # Representa uma operação de compra feita na loja
 

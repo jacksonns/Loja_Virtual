@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
-from user import User
-from shopping_cart import ShoppingCart
-from datetime import datetime, timedelta
+from src.models.user import User
+from src.models.shopping_cart import ShoppingCart
 
 class Session(): # Representa uma sessão de usuário logado.
     
@@ -13,4 +12,3 @@ class Session(): # Representa uma sessão de usuário logado.
         self.user = user
         self.expiration_date = datetime.today() + timeout
         self.cart = ShoppingCart()
-

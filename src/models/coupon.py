@@ -1,5 +1,5 @@
 from collections.abc import Callable
-from shopping_cart import ShoppingCart
+from src.models.shopping_cart import ShoppingCart
 
 class Coupon(): # Representa um cupom de desconto.
 
