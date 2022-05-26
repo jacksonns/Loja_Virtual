@@ -12,3 +12,16 @@ class Purchase(): # Representa uma operação de compra feita na loja
         self.session = session
         self.delivery_address = delivery_address
         self.applied_coupon = applied_coupon
+
+    # Por enquanto, o cálculo do frete é algo simples e não corresponde à realidade
+    def get_shipping_rate(self) -> tuple[int,int]:
+        if (self.delivery_address.country != 'Brasil'): # Compras internacionais
+            return (15,0)
+        elif (self.session.cart.get_total_price() >= (200,0)): # Frete grátis para compras acima de $200
+            return (0,0)
+        else:
+            return (5,0)
+
+    def get_total_price(self):
+        price = self.session.cart.get_total_price()
+        return price

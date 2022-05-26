@@ -1,7 +1,7 @@
 from enum import IntEnum
 from src.models.item import Item
 from datetime import timedelta, datetime
-from src.util.price_calculator import PriceCalculate
+from src.util.price_calculator import PriceCalculator
 
 class ShoppingCart(): # Representa um carrinho de compras de uma sessão de usuário
     items: dict[str, dict[str, Item], dict[str, int] ]
@@ -38,6 +38,6 @@ class ShoppingCart(): # Representa um carrinho de compras de uma sessão de usu�
             item = self.get_item_by_id(item_id)
             quantity = self.get_item_quantity(item)
             price = item.get_price()
-            result = PriceCalculate.multiply(price, quantity)
-            total_price = PriceCalculate.sum(total_price, result)
+            result = PriceCalculator.multiply(price, quantity)
+            total_price = PriceCalculator.sum(total_price, result)
         return total_price
