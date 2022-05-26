@@ -1,19 +1,17 @@
 class PriceCalculate:
 
     def sum(price1, price2) -> tuple[int, int]:
-        result = tuple()
-        result[0] = price1[0] + price2[0]
-        result[1] = price1[1] + price2[1]
-        while result[1] >= 100:
-            result[1] -= 100
-            result[0] += 1
-        return result
+        reais = price1[0] + price2[0]
+        cents = price1[1] + price2[1]
+        while cents >= 100:
+            cents -= 100
+            reais += 1
+        return (reais,cents)
 
     def multiply(price, quantity) -> tuple[int, int]:
-        result = tuple()
-        result[0] = price[0] * quantity
-        result[1] = price[1] * quantity
-        while result[1] >= 100:
-            result[1] -= 100
-            result[0] += 1
-        return result
+        reais = price[0] * quantity
+        cents = price[1] * quantity
+        while cents >= 100:
+            cents -= 100
+            reais += 1
+        return (reais, cents)

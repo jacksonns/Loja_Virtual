@@ -19,7 +19,7 @@ class ShoppingCart(): # Representa um carrinho de compras de uma sess√£o de usu√
             self.items[item.id]['quantity'] += quantity
         else:
             self.items[item.id] = {
-                'item': Item, 
+                'item': item, 
                 'quantity': quantity
             }
 
@@ -39,5 +39,5 @@ class ShoppingCart(): # Representa um carrinho de compras de uma sess√£o de usu√
             quantity = self.get_item_quantity(item)
             price = item.get_price()
             result = PriceCalculate.multiply(price, quantity)
-            total_price += PriceCalculate.sum(total_price, result)
+            total_price = PriceCalculate.sum(total_price, result)
         return total_price
