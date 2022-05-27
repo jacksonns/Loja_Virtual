@@ -25,7 +25,7 @@ def intl_address():
 
 @pytest.fixture
 def item_costing_100():
-    item = Item('I0001', User('fulano', '123'), 'item1', 'item', (100,00))
+    item = Item('I0001', User('fulano', '123'), 'item1', 'item', (100,00), stock=10)
     yield item
 
 class TestPurchase:

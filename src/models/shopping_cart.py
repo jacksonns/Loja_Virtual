@@ -15,6 +15,10 @@ class ShoppingCart(): # Representa um carrinho de compras de uma sess√£o de usu√
         return not self.items
 
     def add_item(self, item: Item, quantity: int):
+        if item.stock == 0: 
+            return
+        if item.stock - quantity < 0: 
+            quantity = item.stock
         if item.id in self.items:
             self.items[item.id]['quantity'] += quantity
         else:
@@ -36,8 +40,6 @@ class ShoppingCart(): # Representa um carrinho de compras de uma sess√£o de usu√
         total_price = (0,0)
         for item_id in self.items:
             item = self.get_item_by_id(item_id)
-            quantity = self.get_item_quantity(item)
-            price = item.get_price()
-            result = PriceCalculator.multiply(price, quantity)
+            result = PriceCalculator.multiply(item.price, self.items[item_id]['quantity'])
             total_price = PriceCalculator.sum(total_price, result)
         return total_price
