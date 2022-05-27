@@ -17,7 +17,7 @@ class ShoppingCart(): # Representa um carrinho de compras de uma sess√£o de usu√
     def add_item(self, item: Item, quantity: int):
         if item.stock == 0: 
             return
-        if item.stock - quantity < 0: 
+        if item.stock < quantity: 
             quantity = item.stock
         if item.id in self.items:
             self.items[item.id]['quantity'] += quantity
