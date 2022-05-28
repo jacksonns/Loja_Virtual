@@ -9,7 +9,7 @@ class ShoppingCart(): # Representa um carrinho de compras de uma sessão de usu�
     expiration_date: datetime
 
     def __init__(self, timeout: timedelta = timedelta(days=2)):
-        self.id = int(time.time())
+        self.id = int(time.time()) #Id autogerado com baixa probabilidade de colisão
         self.expiration_date = datetime.today() + timeout
         self.items = {}
 
