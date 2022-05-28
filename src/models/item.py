@@ -31,3 +31,6 @@ class Item(): # Representa um item à venda no marketplace
     
     def get_id(self) -> str:
         return self.id
+    
+    def get_seller(self) -> User:
+        return self.seller

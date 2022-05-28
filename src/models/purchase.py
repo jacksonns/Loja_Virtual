@@ -25,3 +25,20 @@ class Purchase(): # Representa uma operação de compra feita na loja
     def get_total_price(self):
         price = self.session.cart.get_total_price()
         return price
+
+    def make_payment(self, total_price):
+        self.session.subtract_user_budget(total_price)
+    
+    def update_sellers_budget(self):
+        for item_id in self.session.get_cart_items():
+            item = self.session.cart.get_item_by_id(item_id)
+            seller = item.get_seller()
+            payed_value = self.session.cart.get_total_price_of_item(item)
+            seller.add_budget(payed_value)
+
+    def make_purchase(self):
+        if self.session.get_user_budget() < self.get_total_price():
+            raise Exception("Saldo insuficiente para efetuar compra.")
+        else:
+            self.make_payment(self.get_total_price())
+            self.update_sellers_budget()

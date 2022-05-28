@@ -11,5 +11,11 @@ class User():
         self.password = password
         self.budget = budget
     
+    def get_budget(self) -> tuple[int, int]:
+        return self.budget
+    
     def add_budget(self, quantity: tuple[int, int]):
         self.budget = PriceCalculator.sum(self.budget, quantity)
+    
+    def subtract_budget(self, quantity: tuple[int, int]):
+        self.budget = PriceCalculator.subtract(self.budget, quantity)

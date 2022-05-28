@@ -12,3 +12,15 @@ class Session(): # Representa uma sessão de usuário logado.
         self.user = user
         self.expiration_date = datetime.today() + timeout
         self.cart = ShoppingCart()
+    
+    def get_user_budget(self) -> tuple[int, int]:
+        return self.user.get_budget()
+    
+    def get_cart_items(self):
+        return self.cart.get_items()
+    
+    def add_user_budget(self, quantity: tuple[int, int]):
+        self.user.add_budget(quantity)
+    
+    def subtract_user_budget(self, quantity: tuple[int, int]):
+        self.user.subtract_budget(quantity)

@@ -12,6 +12,18 @@ class ShoppingCart(): # Representa um carrinho de compras de uma sessÃ£o de usuÃ
 
     def is_empty(self) -> bool:
         return not self.items
+    
+    def get_items(self):
+        return self.items
+
+    def get_item_quantity(self, item: Item) -> int:
+        return self.items[item.id]['quantity']
+    
+    def get_item_by_id(self, item_id: str) -> Item:
+        return self.items[item_id]['item']
+    
+    def get_total_price_of_item(self, item: Item) -> tuple[int, int]:
+        return PriceCalculator.multiply(item.price, self.items[item.id]['quantity'])
 
     def add_item(self, item: Item, quantity: int):
         if item.stock == 0: 
@@ -28,17 +40,11 @@ class ShoppingCart(): # Representa um carrinho de compras de uma sessÃ£o de usuÃ
 
     def delete_item(self, item: Item):
         del self.items[item.id]
-    
-    def get_item_quantity(self, item: Item) -> int:
-        return self.items[item.id]['quantity']
-    
-    def get_item_by_id(self, item_id: str) -> Item:
-        return self.items[item_id]['item']
 
     def get_total_price(self) -> tuple[int, int]:
         total_price = (0,0)
         for item_id in self.items:
             item = self.get_item_by_id(item_id)
-            result = PriceCalculator.multiply(item.price, self.items[item_id]['quantity'])
+            result = self.get_total_price_of_item(item)
             total_price = PriceCalculator.sum(total_price, result)
         return total_price
