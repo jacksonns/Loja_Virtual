@@ -6,7 +6,7 @@ import pytest
 
 @pytest.fixture
 def user():
-    user = User('fulano', '123')
+    user = User('fulano', '123Fulano@')
     yield user
 
 @pytest.fixture

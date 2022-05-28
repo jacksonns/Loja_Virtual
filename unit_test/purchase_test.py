@@ -1,15 +1,15 @@
 from src.models.item import Item
-from src.models.shopping_cart import ShoppingCart
 from src.models.user import User
 from src.models.session import Session
 from src.models.purchase import Purchase
 from src.models.address import Address
+from src.exceptions.budget_exception import InsufficientBudgetException
 
 import pytest
 
 @pytest.fixture
 def session():
-    user = User('fulano', '123')
+    user = User('fulano', '123Fulano@')
     session = Session(user)
     yield session
 
@@ -25,17 +25,17 @@ def intl_address():
 
 @pytest.fixture
 def item_costing_100():
-    item = Item('I0001', User('fulano', '123'), 'item1', 'item', (100,00), stock=10)
+    item = Item('I0001', User('fulano', '123Fulano@'), 'item1', 'item', (100,00), stock=10)
     yield item
 
 @pytest.fixture
 def seller1():
-    seller1 = User('beltrano', '456')
+    seller1 = User('beltrano', '456Beltrano@')
     yield seller1
 
 @pytest.fixture
 def seller2():
-    seller2 = User('sicrano', '789')
+    seller2 = User('sicrano', '789Sicrano@')
     yield seller2
 
 @pytest.fixture
@@ -66,7 +66,7 @@ class TestPurchase:
         item = Item('I0001', seller1, 'item1', 'item', (100,00))
         session.cart.add_item(item, 1)
         purchase = Purchase(session, br_address)
-        with pytest.raises(Exception):
+        with pytest.raises(InsufficientBudgetException):
             purchase.make_purchase()
     
     def test_user_budget_after_purchase(self, purchase_br, seller1):

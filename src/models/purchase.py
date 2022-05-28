@@ -1,6 +1,7 @@
 from src.models.session import Session
 from src.models.coupon import Coupon
 from src.models.address import Address
+from src.exceptions.budget_exception import InsufficientBudgetException
 
 class Purchase(): # Representa uma operação de compra feita na loja
 
@@ -38,7 +39,7 @@ class Purchase(): # Representa uma operação de compra feita na loja
 
     def make_purchase(self):
         if self.session.get_user_budget() < self.get_total_price():
-            raise Exception("Saldo insuficiente para efetuar compra.")
+            raise InsufficientBudgetException
         else:
             self.make_payment(self.get_total_price())
             self.update_sellers_budget()

@@ -1,5 +1,9 @@
+from xmlrpc.client import Boolean
 from src.models.user import User
 from src.util.price_calculator import PriceCalculator
+from src.exceptions.item_exception import InvalidPriceException
+from src.exceptions.item_exception import InvalidStockException
+from src.exceptions.item_exception import InvalidSaleException
 
 class Item(): # Representa um item à venda no marketplace
 
@@ -18,10 +22,11 @@ class Item(): # Representa um item à venda no marketplace
         self.seller = seller
         self.name = name
         self.description = description
-        self.price = price
-        self.stock = stock
-        self.sale = sale
-        if sale: 
+        if (self.validatePrice(price)):
+            self.price = price
+        if (self.validateStock(stock)):
+            self.stock = stock
+        if (self.validateSale(sale)): 
             self.price = PriceCalculator.apply_sale(self.price, sale)
         else: 
             self.price = price
@@ -34,3 +39,20 @@ class Item(): # Representa um item à venda no marketplace
     
     def get_seller(self) -> User:
         return self.seller
+    
+    def validatePrice(self, price) -> Boolean:
+        reais = price[0]
+        cents = price[1]
+        if((reais < 0) | (cents < 0)):
+            raise InvalidPriceException()
+        return True
+
+    def validateStock(self, stock) -> Boolean:
+        if(stock < 0):
+            raise InvalidStockException()
+        return True
+
+    def validateSale(self, sale) -> Boolean:
+        if(sale < 0):
+            raise InvalidSaleException()
+        return True
