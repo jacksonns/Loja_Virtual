@@ -11,7 +11,7 @@ def buyer():
 
 @pytest.fixture
 def seller():
-    user = User('ciclano', '123456')
+    user = User('ciclano', '123Fulano@')
     yield user
 
 @pytest.fixture
@@ -21,12 +21,12 @@ def cart(seller):
 
     yield cart
 
-class TestTransactionHistory():
-    def init_transaction_history(self, buyer):
+class TestTransactionHistory:
+    def test_init_transaction_history(self, buyer):
         transaction_history = TransactionHistory(buyer.id)
         assert buyer.id == transaction_history.buyer_id
 
-    def set_transaction_details(self, buyer, seller, cart):
+    def test_set_transaction_details(self, buyer, seller, cart):
         transaction_history = TransactionHistory(buyer.id)
         transaction_history.set_transaction_details(seller.id, cart.id, 10, 99, 109)
 
