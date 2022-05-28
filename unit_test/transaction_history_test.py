@@ -28,10 +28,10 @@ class TestTransactionHistory:
 
     def test_set_transaction_details(self, buyer, seller, cart):
         transaction_history = TransactionHistory(buyer.id)
-        transaction_history.set_transaction_details(seller.id, cart.id, 10, 99, 109)
+        transaction_history.set_transaction_details(seller.id, cart.id, (10, 0), (99, 20), (109, 20))
 
         assert transaction_history.seller_id == seller.id
         assert transaction_history.cart_id == cart.id
-        assert transaction_history.shipping_cost == 10
-        assert transaction_history.items_cost == 99
-        assert transaction_history.total_cost == 109
+        assert transaction_history.shipping_cost == (10, 0)
+        assert transaction_history.items_cost == (99, 20)
+        assert transaction_history.total_cost == (109, 20)
