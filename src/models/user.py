@@ -10,7 +10,7 @@ class User():
     budget: tuple[int, int]
 
     def __init__(self, username: str, password: str, budget: tuple[int, int] = (0,0)):
-        self.id = int(time.time())
+        self.id = int(time.time()) #Id autogerado com baixa probabilidade de colisão
         self.username = username
         self.budget = budget
         if (self.validatePassword(password)):
