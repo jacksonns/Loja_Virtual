@@ -1,15 +1,17 @@
 from datetime import datetime
+import uuid
+
 
 class TransactionHistory: #Guarda o histórico de compras/vendas
-    seller_id: int
-    buyer_id: int
-    cart_id: int
+    seller_id: uuid.UUID
+    buyer_id: uuid.UUID
+    cart_id: uuid.UUID
     shipping_cost: int
     items_cost: int
     total_cost: int
     purchase_date: str
 
-    def __init__(self, buyer_id: int):
+    def __init__(self, buyer_id: uuid.UUID):
         self.buyer_id = buyer_id
 
     def set_purchase_date(self):
