@@ -3,7 +3,9 @@ from src.models.user import User
 from src.models.session import Session
 from src.models.purchase import Purchase
 from src.models.address import Address
+from src.util.price_calculator import PriceCalculator
 from src.exceptions.budget_exception import InsufficientBudgetException
+from src.exceptions.purchase_exception import NoItemsToBuyException
 
 import pytest
 
@@ -92,3 +94,49 @@ class TestPurchase:
         purchase_br.make_purchase()
         assert seller1.get_budget() == (200,00)
         assert seller2.get_budget() == (200,00)
+
+    def test_purchase_with_empty_shopping_cart(self, purchase_br):
+        purchase_br.session.add_user_budget((1000,00))
+        with pytest.raises(NoItemsToBuyException):
+            purchase_br.make_purchase()
+
+    def test_transaction_history_after_purchase_with_one_seller(self, purchase_br, seller1):
+        purchase_br.session.add_user_budget((1000,00))
+        item = Item('I0001', seller1, 'item1', 'item', (100,00), stock=10)
+        item2 = Item('I0002', seller1, 'item2', 'item', (250,00), stock=10)
+
+        purchase_br.session.cart.add_item(item, 3)
+        purchase_br.session.cart.add_item(item2, 2)
+
+        transaction_history = purchase_br.make_purchase()
+
+        assert transaction_history[0].buyer_id == purchase_br.session.user.id
+        assert transaction_history[0].seller_id == seller1.id
+        assert transaction_history[0].cart_id == purchase_br.session.cart.id
+        assert transaction_history[0].shipping_cost == purchase_br.get_shipping_rate()
+        assert transaction_history[0].items_cost == (800,00)
+        assert transaction_history[0].total_cost == PriceCalculator.sum((800, 00), purchase_br.get_shipping_rate())
+
+    def test_transaction_history_after_purchase_with_multiple_sellers(self, purchase_br, seller1, seller2):
+        purchase_br.session.add_user_budget((1000,00))
+        item = Item('I0001', seller1, 'item1', 'item', (100,00), stock=10)
+        item2 = Item('I0002', seller2, 'item2', 'item', (250,00), stock=10)
+
+        purchase_br.session.cart.add_item(item, 3)
+        purchase_br.session.cart.add_item(item2, 2)
+
+        transaction_history = purchase_br.make_purchase()
+
+        assert transaction_history[0].buyer_id == purchase_br.session.user.id
+        assert transaction_history[0].seller_id == seller1.id
+        assert transaction_history[0].cart_id == purchase_br.session.cart.id
+        assert transaction_history[1].buyer_id == purchase_br.session.user.id
+        assert transaction_history[1].seller_id == seller2.id
+        assert transaction_history[1].cart_id == purchase_br.session.cart.id
+
+        assert transaction_history[0].shipping_cost == purchase_br.get_shipping_rate()
+        assert transaction_history[0].items_cost == (300,00)
+        assert transaction_history[0].total_cost == PriceCalculator.sum((300, 00), purchase_br.get_shipping_rate())
+        assert transaction_history[1].shipping_cost == purchase_br.get_shipping_rate()
+        assert transaction_history[1].items_cost == (500,00)
+        assert transaction_history[1].total_cost == PriceCalculator.sum((500, 00), purchase_br.get_shipping_rate())

@@ -4,6 +4,7 @@ from src.models.address import Address
 from src.models.transaction_history import TransactionHistory
 from src.util.price_calculator import PriceCalculator
 from src.exceptions.budget_exception import InsufficientBudgetException
+from src.exceptions.purchase_exception import NoItemsToBuyException
 
 class Purchase(): # Representa uma operação de compra feita na loja
 
@@ -26,6 +27,9 @@ class Purchase(): # Representa uma operação de compra feita na loja
             return (5,0)
 
     def get_total_price(self):
+        if self.session.cart.is_empty():
+            raise NoItemsToBuyException
+
         price = self.session.cart.get_total_price()
         return price
 
