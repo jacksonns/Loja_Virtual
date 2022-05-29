@@ -1,16 +1,16 @@
 from src.util.price_calculator import PriceCalculator
 from src.exceptions.budget_exception import NegativeBudgetException
 from src.exceptions.password_exception import InvalidPasswordException
-import time
+import uuid
 
 class User():
-    id: int
+    id: uuid.UUID
     username: str
     password: str
     budget: tuple[int, int]
 
     def __init__(self, username: str, password: str, budget: tuple[int, int] = (0,0)):
-        self.id = int(time.time()) #Id autogerado com baixa probabilidade de colisão
+        self.id = uuid.uuid4() #Id autogerado com baixa probabilidade de colisão
         self.username = username
         self.budget = budget
         if (self.validatePassword(password)):

@@ -1,15 +1,15 @@
 from src.models.item import Item
 from datetime import timedelta, datetime
 from src.util.price_calculator import PriceCalculator
-import time
+import uuid
 
 class ShoppingCart(): # Representa um carrinho de compras de uma sessão de usuário
-    id: int
+    id: uuid.UUID
     items: dict[str, dict[str, Item], dict[str, int] ]
     expiration_date: datetime
 
     def __init__(self, timeout: timedelta = timedelta(days=2)):
-        self.id = int(time.time()) #Id autogerado com baixa probabilidade de colisão
+        self.id = uuid.uuid4() #Id autogerado com baixa probabilidade de colisão
         self.expiration_date = datetime.today() + timeout
         self.items = {}
 
