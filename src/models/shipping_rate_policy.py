@@ -34,7 +34,6 @@ class SeasonalDiscountPolicy(ShippingRatePolicy):
     def apply_shipping_rate(self, current_rate_value: tuple, sender_address: Address, receiver_address: Address):
         return PriceCalculator.subtract(current_rate_value, self.discount)
 
-
 class DefaultShippingRate(ShippingRatePolicy):
     value: tuple
 

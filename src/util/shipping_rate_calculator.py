@@ -6,6 +6,10 @@ class ShippingRateCalculator:
     shipping_rate_add_op: [ShippingRatePolicy]
     shipping_rate_mult_op: [ShippingRatePolicy]
 
+    def __init__(self,):
+        self.shipping_rate_add_op = []
+        self.shipping_rate_mult_op = []
+
     def include_shipping_rate_policy(self, shipping_rate: ShippingRatePolicy):
         if shipping_rate.shipping_rate_op == ShippingRatePolicy.SHIPPING_RATE_OP_ADD:
             self.shipping_rate_add_op.append(shipping_rate)
@@ -22,5 +26,8 @@ class ShippingRateCalculator:
         for mult_shipping_rate in self.shipping_rate_mult_op:
             current_shipping_rate = mult_shipping_rate.apply_shipping_rate(current_shipping_rate, sender_address,
                                                                            receiver_address)
+
+        if current_shipping_rate[0] < 0 or current_shipping_rate[1] < 0:
+            return (0 ,0)
 
         return current_shipping_rate
