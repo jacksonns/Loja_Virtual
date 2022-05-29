@@ -108,7 +108,8 @@ class TestPurchase:
         purchase_br.session.cart.add_item(item, 3)
         purchase_br.session.cart.add_item(item2, 2)
 
-        transaction_history = purchase_br.make_purchase()
+        purchase_br.make_purchase()
+        transaction_history = purchase_br.transaction_history
 
         assert transaction_history[0].buyer_id == purchase_br.session.user.id
         assert transaction_history[0].seller_id == seller1.id
@@ -125,7 +126,8 @@ class TestPurchase:
         purchase_br.session.cart.add_item(item, 3)
         purchase_br.session.cart.add_item(item2, 2)
 
-        transaction_history = purchase_br.make_purchase()
+        purchase_br.make_purchase()
+        transaction_history = purchase_br.transaction_history
 
         assert transaction_history[0].buyer_id == purchase_br.session.user.id
         assert transaction_history[0].seller_id == seller1.id

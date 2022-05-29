@@ -11,11 +11,13 @@ class Purchase(): # Representa uma operação de compra feita na loja
     session: Session
     applied_coupon: Coupon
     delivery_address: Address
+    transaction_history: [TransactionHistory]
 
     def __init__(self, session: Session, delivery_address: Address, applied_coupon: Coupon = None):
         self.session = session
         self.delivery_address = delivery_address
         self.applied_coupon = applied_coupon
+        self.transaction_history = []
 
     # Por enquanto, o cálculo do frete é algo simples e não corresponde à realidade
     def get_shipping_rate(self) -> tuple[int,int]:
@@ -62,13 +64,11 @@ class Purchase(): # Representa uma operação de compra feita na loja
             sellers_with_costs[seller_id]["items_cost"] = PriceCalculator.sum(sellers_with_costs[seller_id]["items_cost"], payed_value)
             sellers_with_costs[seller_id]["total_cost"] = PriceCalculator.sum(sellers_with_costs[seller_id]["total_cost"], payed_value)
 
-        history = []
         for seller_id, seller_costs in sellers_with_costs.items():
-            transaction_history = TransactionHistory(buyer_id)
-            transaction_history.set_transaction_details(seller_id, cart_id, seller_costs["shipping_cost"], seller_costs["items_cost"], seller_costs["total_cost"])
-            history.append(transaction_history)
+            transaction_history_element = TransactionHistory(buyer_id)
+            transaction_history_element.set_transaction_details(seller_id, cart_id, seller_costs["shipping_cost"], seller_costs["items_cost"], seller_costs["total_cost"])
+            self.transaction_history.append(transaction_history_element)
 
-        return history
 
     def make_purchase(self):
         if self.session.get_user_budget() < self.get_total_price():
