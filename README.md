@@ -8,7 +8,7 @@
 
 ## Escopo Funcional
 
-O projeto proposto consiste em simular o funcionamento de uma loja virtual, onde podem ser realizadas as operações típicas desse tipo de sistema, como compras através de um carrinho virtual, uso de cupons, cálculo de frete, criação de promoções, entre outras. 
+O projeto proposto consiste em simular o funcionamento de uma loja virtual no estilo Marketplace, onde podem ser realizadas as operações típicas desse tipo de sistema, como compras através de um carrinho virtual, uso de cupons, cálculo de frete, criação de promoções, colocar produtos à venda, entre outras. 
 
 
 ### Histórias
@@ -23,3 +23,5 @@ O projeto proposto consiste em simular o funcionamento de uma loja virtual, onde
 
 
 ## Tecnologias
+
+O sistema foi desenvolvido na linguagem Python, com auxílio do framework Flask. Para os testes de unidade, foi utilizado o Pytest.
