@@ -1,46 +1,53 @@
-from sqlalchemy import Column, String, Integer, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
+from src.app import db
 
-Base = declarative_base()
-
-class User(Base):
+class User(db.Model):
     
     __tablename__ = 'user'
 
-    username = Column(String, primary_key=True)
-    password = Column(String, nullable=False)
-    budget_reais = Column(Integer, nullable=False)
-    budget_cents = Column(Integer, nullable=False)
+    id = db.Column(db.String, primary_key=True)
+    username = db.Column(db.String, nullable=False)
+    password = db.Column(db.String, nullable=False)
+    budget_reais = db.Column(db.Integer, nullable=False)
+    budget_cents = db.Column(db.Integer, nullable=False)
 
 
-class Item(Base):
+class Item(db.Model):
 
     __tablename__ = 'item'
 
-    item_id = Column(String, primary_key=True)
-    seller = Column(String, ForeignKey('user.username'))
-    name: Column(String, nullable=False)
-    description: Column(String, nullable=False)
-    price_reais = Column(Integer, nullable=False)
-    price_cents = Column(Integer, nullable=False)
-    stock = Column(Integer, nullable=False)
-    sale = Column(Integer) 
+    id = db.Column(db.String, primary_key=True)
+    seller_id = db.Column(db.String, db.ForeignKey('user.id'))
+    name = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
+    price_reais = db.Column(db.Integer, nullable=False)
+    price_cents = db.Column(db.Integer, nullable=False)
+    stock = db.Column(db.Integer, nullable=False)
+    sale = db.Column(db.Integer)
 
 
-class Session(Base):
+class ItemList(db.Model):
 
-    __tablename__ = 'session'
+    __tablename__ = 'item_list'
 
-    session_id = Column(Integer, primary_key=True)
-    username = Column(String, ForeignKey('user.username'))
-    expiration_date = Column(String)
+    id = db.Column(db.String, primary_key=True)
+    item_id = db.Column(db.String, db.ForeignKey('item.id'), primary_key=True)
+    quantity = db.Column(db.Integer, nullable=False)
 
 
-class Cart(Base):
+class Cart(db.Model):
 
     __tablename__ = 'cart'
 
-    cart_id = Column(Integer, primary_key=True)
-    session_id = Column(String, ForeignKey('session.session_id'))
-    item_id = Column(String, ForeignKey('item.item_id'))
-    quantity = Column(Integer, nullable=False)
+    id = db.Column(db.String, primary_key=True)
+    item_list = db.Column(db.String, db.ForeignKey('item_list.id'))
+    expiration_date = db.Column(db.String)
+
+
+class Session(db.Model):
+
+    __tablename__ = 'session'
+
+    id = db.Column(db.String, primary_key=True)
+    user_id = db.Column(db.String, db.ForeignKey('user.id'))
+    expiration_date = db.Column(db.String)
+    cart_id = db.Column(db.String, db.ForeignKey('cart.id'))
