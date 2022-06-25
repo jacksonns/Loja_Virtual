@@ -12,10 +12,7 @@ from src.database import tables
 db.init_app(app)
 migrate = Migrate(app, db)
 
-@app.route('/')
-@app.route('/home')
-def home():
-   return render_template("home.html")
+import src.router
 
 if __name__ == '__main__':
     app.run()

@@ -1,6 +1,6 @@
 from src.app import db
 
-class User(db.Model):
+class UserTable(db.Model):
     
     __tablename__ = 'user'
 
@@ -11,7 +11,7 @@ class User(db.Model):
     budget_cents = db.Column(db.Integer, nullable=False)
 
 
-class Item(db.Model):
+class ItemTable(db.Model):
 
     __tablename__ = 'item'
 
@@ -25,7 +25,7 @@ class Item(db.Model):
     sale = db.Column(db.Integer)
 
 
-class ItemList(db.Model):
+class ItemListTable(db.Model):
 
     __tablename__ = 'item_list'
 
@@ -34,7 +34,7 @@ class ItemList(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
 
 
-class Cart(db.Model):
+class CartTable(db.Model):
 
     __tablename__ = 'cart'
 
@@ -43,7 +43,7 @@ class Cart(db.Model):
     expiration_date = db.Column(db.String)
 
 
-class Session(db.Model):
+class SessionTable(db.Model):
 
     __tablename__ = 'session'
 
