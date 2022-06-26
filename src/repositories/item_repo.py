@@ -19,3 +19,11 @@ class ItemRepository:
         item = db.session.query(ItemTable).filter(ItemTable.id == id).first()
         user = UserRepository().get_user_by_id(item.seller_id)
         return Item(item.id, user, item.name, item.description, (item.price_reais, item.price_cents), item.stock, item.sale)
+    
+    def add_item(self, item: Item):
+        seller_id = UserRepository().get_user_id_by_username(item.seller.username)
+        new_item = ItemTable(item.id, seller_id, item.name, 
+                            item.description, item.price[0], 
+                            item.price[1], item.stock, item.sale)
+        db.session.add(new_item)
+        db.session.commit()

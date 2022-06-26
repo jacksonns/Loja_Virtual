@@ -15,6 +15,16 @@ class ItemTable(db.Model):
 
     __tablename__ = 'item'
 
+    def __init__(self, id: str, seller_id: str, name: str, description: str, price_reais: int, price_cents: int, stock: int, sale: int):
+        self.id = id
+        self.seller_id = seller_id
+        self.name = name
+        self.description = description
+        self.price_reais = price_reais
+        self.price_cents = price_cents
+        self.stock = stock
+        self.sale = sale
+
     id = db.Column(db.String, primary_key=True)
     seller_id = db.Column(db.String, db.ForeignKey('user.id'))
     name = db.Column(db.String, nullable=False)
