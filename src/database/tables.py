@@ -48,6 +48,9 @@ class CartItemTable(db.Model):
 class CartTable(db.Model):
 
     __tablename__ = 'cart'
+    def __init__(self, id:str, expiration_date: str):
+        self.id = id
+        self.expiration_date = expiration_date
 
     id = db.Column(db.String, primary_key=True)
     expiration_date = db.Column(db.String)
