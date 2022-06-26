@@ -4,7 +4,7 @@ from src.exceptions.user_exception import UsernameNotUniqueException
 from src.models.user import User
 from src.repositories.item_repo import ItemRepository
 from src.exceptions.password_exception import InvalidPasswordException
-from flask import render_template, request, redirect, url_for
+from flask import jsonify, render_template, request, redirect, url_for
 from src.repositories.session_repo import SessionRepository
 from src.repositories.user_repo import UserRepository
 
@@ -49,16 +49,16 @@ def signUp():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-   messages = [request.args.get('message')] if request.args.get('message') else None
+   messages = [request.args.get('message')] if request.args.get('message') else []
    if (request.method == 'GET'):
       return render_template('login.html', title='Login', messages=messages)
    code = 200
    username = request.form.get('username')
    password = request.form.get('password')
    try:
-      session = SessionRepository().login(username, password)
+      session = SessionRepository().get_session_by_credentials(username, password)
       messages.append('Welcome, {}'.format(session.user.username))
-      return redirect(url_for('home', message=messages, session=session))
+      return jsonify({ 'session_id': session.id }), 200
    except InvalidLoginException as e:
       code = 401
       messages.append(str(e))

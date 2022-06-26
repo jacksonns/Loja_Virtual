@@ -17,7 +17,7 @@ convention = {
 }
 
 metadata = MetaData(naming_convention=convention)
-db = SQLAlchemy(app, metadata=metadata)
+db = SQLAlchemy(metadata=metadata)
 from src.database import tables
 db.init_app(app)
 migrate = Migrate(app, db, render_as_batch=True)

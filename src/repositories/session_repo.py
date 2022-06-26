@@ -1,4 +1,5 @@
 from datetime import datetime
+from re import L
 from src.database.tables import SessionTable
 from src.exceptions.session_exception import SessionExpiredException
 from src.exceptions.login_exception import InvalidLoginException
@@ -8,7 +9,17 @@ from src.repositories.user_repo import UserRepository
 
 class SessionRepository:
 
-    def get_session_and_renew(self, session_id: str):
+    def get_session_by_id(self, session_id: str):
+        session = db.session.query(SessionTable).filter_by(id=session_id).first()
+        if (datetime.today() > session.expiration_date):
+            raise SessionExpiredException
+        user = UserRepository().get_user_by_id(session.user_id)
+        # cart = CartRepository().get_cart(session.cart_id)
+        session = Session(user, id=session.id)
+        # session.cart = cart
+        return session
+
+    def renew_session(self, session_id: str):
         session = db.session.query(SessionTable).filter_by(id=session_id).first()
         if (datetime.today() > session.expiration_date):
             raise SessionExpiredException
@@ -20,7 +31,7 @@ class SessionRepository:
         db.session.commit()
         return updatedSession
 
-    def new_session(self, session: Session):
+    def insert_session(self, session: Session):
         newSession = SessionTable(
             id=session.id.hex,
             user_id=session.user.id.hex,
@@ -30,11 +41,17 @@ class SessionRepository:
         db.session.add(newSession)
         db.session.commit()
 
-    def login(self, username: str, password: str) -> Session:
+    def get_session_by_credentials(self, username: str, password: str) -> Session:
         user = UserRepository().get_user_by_username(username)
         if ((not user) or (user.password != password)):
             raise InvalidLoginException
         else:
             newSession = Session(user)
-            SessionRepository().new_session(newSession)
+            SessionRepository().insert_session(newSession)
             return newSession
+
+    def delete_session_by_id(self, session_id: str):
+        session = db.session.query(SessionTable).filter_by(id=session_id).first()
+        if session:
+            db.session.delete(session)
+            db.session.commit()

@@ -28,4 +28,9 @@ class UserRepository:
             db.session.commit()
         except exc.IntegrityError:
             raise UsernameNotUniqueException(user.username)
-        
+
+    def delete_user_by_username(self, username: str):
+        user = db.session.query(UserTable).filter_by(username=username).first()
+        if user:
+            db.session.delete(user)
+            db.session.commit()
