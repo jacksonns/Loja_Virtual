@@ -2,7 +2,8 @@ from src.app import app
 from src.models.item import Item
 from src.repositories.user_repo import UserRepository
 from src.repositories.item_repo import ItemRepository
-
+from src.models.shopping_cart import ShoppingCart
+from src.repositories.cart_repo import CartRepository
 import uuid
 from flask import render_template, request
 
@@ -39,8 +40,18 @@ def sell():
 
 @app.route('/cart', methods=['GET', 'POST'])
 def cart():
-   #to be implemented
-   pass
+   if request.method == 'POST':
+      cart = ShoppingCart()
+      cart_id = CartRepository().create_cart(cart)
+      return {"cart_id" : cart_id}
+   if request.method == 'GET':
+      cart_id = request.args.get('id')
+      cart = CartRepository().get_cart(cart_id)
+
+      if cart:
+         return {"cart_id": cart.id, "expiration_date": cart.expiration_date}
+      else:
+         return "", 404
 
 @app.route('/cart/item', methods=['POST', 'DELETE'])
 def cart_item():
