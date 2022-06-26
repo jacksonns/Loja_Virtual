@@ -20,26 +20,32 @@ class SessionRepository:
         return session
 
     def renew_session(self, session_id: str):
-        session = db.session.query(SessionTable).filter_by(id=session_id).first()
-        if (datetime.today() > session.expiration_date):
-            raise SessionExpiredException
-        user = UserRepository().get_user_by_id(session.user_id)
-        # cart = CartRepository().get_cart(session.cart_id)
-        updatedSession = Session(user, id=session.id)
-        # updatedSession.cart = cart
-        session.expiration_date = updatedSession.expiration_date
-        db.session.commit()
-        return updatedSession
+        try:
+            session = db.session.query(SessionTable).filter_by(id=session_id).first()
+            if (datetime.today() > session.expiration_date):
+                raise SessionExpiredException
+            user = UserRepository().get_user_by_id(session.user_id)
+            # cart = CartRepository().get_cart(session.cart_id)
+            updatedSession = Session(user, id=session.id)
+            # updatedSession.cart = cart
+            session.expiration_date = updatedSession.expiration_date
+            db.session.commit()
+            return updatedSession
+        except:
+            db.session.rollback()
 
     def insert_session(self, session: Session):
-        newSession = SessionTable(
-            id=session.id.hex,
-            user_id=session.user.id.hex,
-            #cart_id=session.cart.id.hex,
-            expiration_date=session.expiration_date
-            )
-        db.session.add(newSession)
-        db.session.commit()
+        try:
+            newSession = SessionTable(
+                id=session.id.hex,
+                user_id=session.user.id.hex,
+                #cart_id=session.cart.id.hex,
+                expiration_date=session.expiration_date
+                )
+            db.session.add(newSession)
+            db.session.commit()
+        except:
+            db.session.rollback()
 
     def get_session_by_credentials(self, username: str, password: str) -> Session:
         user = UserRepository().get_user_by_username(username)

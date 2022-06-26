@@ -1,5 +1,6 @@
 from re import T
 from sqlalchemy import exc
+import sqlite3
 from src.database.tables import UserTable
 from src.exceptions.user_exception import UsernameNotUniqueException
 from src.models.user import User
@@ -26,7 +27,8 @@ class UserRepository:
                 )
             db.session.add(newUser)
             db.session.commit()
-        except exc.IntegrityError:
+        except (exc.IntegrityError, sqlite3.IntegrityError):
+            db.session.rollback()
             raise UsernameNotUniqueException(user.username)
 
     def delete_user_by_username(self, username: str):

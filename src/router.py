@@ -58,7 +58,7 @@ def login():
    try:
       session = SessionRepository().get_session_by_credentials(username, password)
       messages.append('Welcome, {}'.format(session.user.username))
-      return jsonify({ 'session_id': session.id }), 200
+      return jsonify({ 'session_id': session.id.hex }), 200
    except InvalidLoginException as e:
       code = 401
       messages.append(str(e))

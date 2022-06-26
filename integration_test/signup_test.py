@@ -7,6 +7,7 @@ from src.repositories.user_repo import UserRepository
 def client():
     app.config['TESTING'] = True
     with app.test_client() as client:
+        client.application.app_context().push()
         yield client
 
 class TestSignUp:
@@ -16,7 +17,7 @@ class TestSignUp:
         response = client.post('/signup', data={
             'username': username,
             'password': '123Fulano@'
-        }, follow_redirects=False)
+        }, follow_redirects=True)
         user = UserRepository().get_user_by_username(username)
         assert response.status_code == 200
         assert user
@@ -28,11 +29,11 @@ class TestSignUp:
         response = client.post('/signup', data={
             'username': username,
             'password': '123Fulano@'
-        }, follow_redirects=False)
+        }, follow_redirects=True)
         response = client.post('/signup', data={
             'username': username,
             'password': '123Ciclano@'
-        }, follow_redirects=False)
+        }, follow_redirects=True)
 
         assert response.status_code == 409
 
@@ -40,6 +41,7 @@ class TestSignUp:
         user = UserRepository().get_user_by_username(username)
         assert not user
 
+class TestSignUp2:
     def test_signup_does_not_accept_lower_case_password(self, client):
         username = 'user_test_lowercase'
         response = client.post('/signup', data={

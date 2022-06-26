@@ -11,6 +11,7 @@ password = '123Fulano@'
 def client():
     app.config['TESTING'] = True
     with app.test_client() as client:
+        client.application.app_context().push()
         client.post('/signup', data={
             'username': username,
             'password': password
@@ -29,8 +30,8 @@ class TestLogin:
         session = SessionRepository().get_session_by_id(data['session_id'])
         assert session
         assert session.user.username == username
-        SessionRepository().delete_session_by_id(session.id)
-    
+        SessionRepository().delete_session_by_id(session.id.hex)
+
     def test_does_not_login_with_incorrect_password(self, client):
         response = client.post('/login', data={
             'username': username,
