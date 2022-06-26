@@ -4,7 +4,7 @@ coverage:
       default:
         # basic
         target: auto
-        threshold: 2%
+        threshold: 3%
         base: auto 
         flags: 
           - unit
@@ -16,3 +16,21 @@ coverage:
         if_ci_failed: error #success, failure, error, ignore
         informational: false
         only_pulls: false
+    
+    patch:
+      default:
+      # basic
+      target: auto
+      threshold: 3%
+      base: auto 
+      flags: 
+        - unit
+      paths: 
+        - "src"
+      # advanced settings
+      branches: 
+        - main
+      if_ci_failed: error #success, failure, error, ignore
+      informational: false
+      only_pulls: false
+
