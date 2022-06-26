@@ -33,6 +33,6 @@ def sell():
                      int(data['stock']), int(data['sale']) )
          ItemRepository().add_item(item)
       except:
-         return 'An error occurred'
+         return 'An error occurred', 400
       return 'Submitted {}!'.format(data['name'])
    return render_template('sell.html')
