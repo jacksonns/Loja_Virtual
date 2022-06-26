@@ -1,8 +1,8 @@
 from datetime import datetime
 from src.database.tables import SessionTable
-from src.exceptions.session_exception import SessionExpiredException, InvalidLoginException
+from src.exceptions.session_exception import SessionExpiredException
+from src.exceptions.login_exception import InvalidLoginException
 from src.models.session import Session
-from src.models.user import User
 from src.app import db
 from src.repositories.user_repo import UserRepository
 
@@ -24,7 +24,7 @@ class SessionRepository:
         newSession = SessionTable(
             id=session.id.hex,
             user_id=session.user.id.hex,
-            cart_id=session.cart.id.hex,
+            #cart_id=session.cart.id.hex,
             expiration_date=session.expiration_date
             )
         db.session.add(newSession)
@@ -36,5 +36,5 @@ class SessionRepository:
             raise InvalidLoginException
         else:
             newSession = Session(user)
-            SessionRepository.new_session(newSession)
-            return [user, newSession]
+            SessionRepository().new_session(newSession)
+            return newSession
