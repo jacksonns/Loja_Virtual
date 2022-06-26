@@ -1,14 +1,17 @@
 from datetime import datetime, timedelta
+import uuid
 from src.models.user import User
 from src.models.shopping_cart import ShoppingCart
 
 class Session(): # Representa uma sessão de usuário logado.
     
+    id: uuid.UUID
     user: User
-    expiration_date: timedelta
+    expiration_date: datetime
     cart: ShoppingCart
 
-    def __init__(self, user: User, timeout: timedelta = timedelta(days=7) ):
+    def __init__(self, user: User, timeout: timedelta = timedelta(days=7), id=None ):
+        self.id = uuid.UUID(id) if id is not None else uuid.uuid4()
         self.user = user
         self.expiration_date = datetime.today() + timeout
         self.cart = ShoppingCart()
