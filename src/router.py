@@ -36,3 +36,13 @@ def sell():
          return 'An error occurred'
       return 'Submitted {}!'.format(data['name'])
    return render_template('sell.html')
+
+@app.route('/cart', methods=['GET', 'POST'])
+def cart():
+   #to be implemented
+   pass
+
+@app.route('/cart/item', methods=['POST', 'DELETE'])
+def cart_item():
+   #to be implemented
+   pass
