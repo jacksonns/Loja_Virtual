@@ -1,2 +1,5 @@
 # Cache
 __pycache__/
+
+# Populating db
+populate_db.py
