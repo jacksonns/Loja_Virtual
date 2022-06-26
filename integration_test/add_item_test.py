@@ -18,7 +18,7 @@ def client_with_item_teardown(client):
     delete_last_inserted("item")
 
 class TestAddItem:
-    
+
     def test_add_item_to_sell(self, client_with_item_teardown):
         response = client_with_item_teardown.post('/sell', data={
         'seller_id': 'U0001',
@@ -37,13 +37,13 @@ class TestAddItem:
         assert response.status_code == 200
 
     def test_delete_item_by_name(self, client_with_item_teardown):
-        new_item = ItemTable("item-id-1", "seller-id-1", "Item Name",
+        new_item = ItemTable("item-id-1", "seller-id-1", "Item_Name_1",
                             "description", 10, 20, 5, 1)
 
         db.session.add(new_item)
         db.session.commit()
 
-        ItemRepository().delete_item_by_name('Item Name')
+        client_with_item_teardown.delete('/items/name/Item_Name_1', follow_redirects=True)
 
         item = db.session.query(ItemTable).filter(ItemTable.id == "item-id-1").first()
 

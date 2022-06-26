@@ -17,6 +17,12 @@ def items():
    items = ItemRepository().get_all_items()
    return render_template('items.html', items_list=items)
 
+@app.route('/items/name/<name>', methods=['DELETE'])
+def item_by_name(name):
+   if request.method == 'DELETE':
+      ItemRepository().delete_item_by_name(name)
+      return 'Removed item ' + name + "!"
+
 @app.route('/items/<id>')
 def item(id):
    item = ItemRepository().get_item_by_id(id)
