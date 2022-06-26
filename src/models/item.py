@@ -22,6 +22,7 @@ class Item(): # Representa um item à venda no marketplace
         self.seller = seller
         self.name = name
         self.description = description
+        self.sale = sale
         if (self.validatePrice(price)):
             self.price = price
         if (self.validateStock(stock)):
