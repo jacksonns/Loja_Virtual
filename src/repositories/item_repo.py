@@ -13,5 +13,4 @@ class ItemRepository:
             item_list.append(Item(item.id, user, item.name, 
                                 item.description, (item.price_reais, item.price_cents), 
                                 item.stock, item.sale))
-        print(item_list)
         return item_list
