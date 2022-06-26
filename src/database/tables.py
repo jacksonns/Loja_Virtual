@@ -5,7 +5,7 @@ class UserTable(db.Model):
     __tablename__ = 'user'
 
     id = db.Column(db.String, primary_key=True)
-    username = db.Column(db.String, nullable=False)
+    username = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
     budget_reais = db.Column(db.Integer, nullable=False)
     budget_cents = db.Column(db.Integer, nullable=False)
@@ -49,7 +49,7 @@ class SessionTable(db.Model):
 
     id = db.Column(db.String, primary_key=True)
     user_id = db.Column(db.String, db.ForeignKey('user.id'))
-    expiration_date = db.Column(db.String)
+    expiration_date = db.Column(db.DateTime)
 
 class TransactionHistoryTable(db.Model):
 

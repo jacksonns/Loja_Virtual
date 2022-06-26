@@ -9,8 +9,8 @@ class User():
     password: str
     budget: tuple[int, int]
 
-    def __init__(self, username: str, password: str, budget: tuple[int, int] = (0,0)):
-        self.id = uuid.uuid4() #Id autogerado com baixa probabilidade de colisão
+    def __init__(self, username: str, password: str, budget: tuple[int, int] = (0,0), id=None):
+        self.id = id if id is not None else uuid.uuid4() #Id autogerado com baixa probabilidade de colisão
         self.username = username
         self.budget = budget
         if (self.validatePassword(password)):
