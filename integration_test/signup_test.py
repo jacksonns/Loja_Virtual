@@ -41,7 +41,6 @@ class TestSignUp:
         user = UserRepository().get_user_by_username(username)
         assert not user
 
-class TestSignUp2:
     def test_signup_does_not_accept_lower_case_password(self, client):
         username = 'user_test_lowercase'
         response = client.post('/signup', data={
