@@ -14,3 +14,8 @@ class ItemRepository:
                                 item.description, (item.price_reais, item.price_cents), 
                                 item.stock, item.sale))
         return item_list
+
+    def get_item_by_id(self, id: str):
+        item = db.session.query(ItemTable).filter(ItemTable.id == id).first()
+        user = UserRepository().get_user_by_id(item.seller_id)
+        return Item(item.id, user, item.name, item.description, (item.price_reais, item.price_cents), item.stock, item.sale)

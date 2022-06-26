@@ -6,9 +6,9 @@ class TransactionHistory: #Guarda o histórico de compras/vendas
     seller_id: uuid.UUID
     buyer_id: uuid.UUID
     cart_id: uuid.UUID
-    shipping_cost: int
-    items_cost: int
-    total_cost: int
+    shipping_cost: tuple[int, int]
+    items_cost: tuple[int, int]
+    total_cost: tuple[int, int]
     purchase_date: str
 
     def __init__(self, buyer_id: uuid.UUID):
