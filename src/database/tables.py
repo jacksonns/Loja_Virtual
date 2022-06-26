@@ -49,7 +49,6 @@ class SessionTable(db.Model):
 
     id = db.Column(db.String, primary_key=True)
     user_id = db.Column(db.String, db.ForeignKey('user.id'))
-    cart_id = db.Column(db.String, db.ForeignKey('cart.id'))
     expiration_date = db.Column(db.String)
 
 class TransactionHistoryTable(db.Model):
