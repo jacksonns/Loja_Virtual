@@ -4,7 +4,7 @@ coverage:
       default:
         # basic
         target: auto
-        threshold: 3%
+        threshold: 15%
         base: auto 
         flags: 
           - unit
@@ -21,7 +21,7 @@ coverage:
       default:
       # basic
       target: auto
-      threshold: 3%
+      threshold: 15%
       base: auto 
       flags: 
         - unit
