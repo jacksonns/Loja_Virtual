@@ -18,4 +18,4 @@ def items():
 @app.route('/items/<id>')
 def item(id):
    item = ItemRepository().get_item_by_id(id)
-   return jsonpickle.encode(item, unpicklable=False)
+   return render_template('items.html', items_list=[item])
