@@ -3,8 +3,6 @@ from src.repositories.item_repo import ItemRepository
 
 from flask import render_template
 
-import jsonpickle
-
 @app.route('/')
 @app.route('/home')
 def home():
