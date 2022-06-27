@@ -1,3 +1,99 @@
-{% for item in items_list %}
-    {{ item.name }} ({{ item.id }})
-{% endfor %}
+{% extends "base.html" %}
+
+{% block app_content %}
+    <div class="col-md-12 pl-0">
+        <table id="table_items" style="width: 100%; border-radius: 3px; border-color: black; border-style: double; margin-left:auto;margin-right:auto;">
+            <tr style="width: 100%; border-color: black; border: solid 1px;">
+                <td style="border-right: solid 1px;">
+                    <p style="display: flex; margin: 10px; justify-content: center;">
+                        <b>
+                            Name
+                        </b>
+                    </p>
+                </td>
+
+                <td style="border-right: solid 1px;">
+                    <p style="display: flex; margin: 10px; justify-content: center;">
+                        <b>
+                            Description
+                        </b>
+                    </p>
+                </td>
+
+                <td style="border-right: solid 1px;">
+                    <p style="display: flex; margin: 10px; justify-content: center;">
+                        <b>
+                            Price (Reais)
+                        </b>
+                    </p>
+                </td>
+                
+                <td style="border-right: solid 1px;">
+                    <p style="display: flex; margin: 10px; justify-content: center;">
+                        <b>
+                            Price (Cents)
+                        </b>
+                    </p>
+                </td>
+
+                <td style="border-right: solid 1px;">
+                    <p style="display: flex; margin: 10px; justify-content: center;">
+                        <b>
+                            Stock
+                        </b>
+                    </p>
+                </td>
+
+                <td style="border-right: solid 1px;">
+                    <p style="display: flex; margin: 10px; justify-content: center;">
+                        <b>
+                            Sale
+                        </b>
+                    </p>
+                </td>
+            </tr>
+            
+            {% for item in items_list %}
+                <tr style="width: 100%; border-color: black; border: solid 1px;">
+                    <td style="border-right: solid 1px;">
+                        <p style="border-right: solid 1px; display: flex; margin: 10px; justify-content: center;">
+                            {{ item.name }}
+                        </p>
+                    </td>
+
+                    <td style="border-right: solid 1px;">
+                        <p style="border-right: solid 1px; display: flex; margin: 10px; justify-content: center;">
+                            {{ item.description }}
+                        </p>
+                    </td>
+
+                    <td style="border-right: solid 1px;">
+                        <p style="border-right: solid 1px; display: flex; margin: 10px; justify-content: center;">
+                            {{ (item.price)[0] }}
+                        </p>
+                    </td>
+
+                    <td style="border-right: solid 1px;">
+                        <p style="border-right: solid 1px; display: flex; margin: 10px; justify-content: center;">
+                            {{ (item.price)[1] }}
+                        </p>
+                    </td>
+
+                    <td style="border-right: solid 1px;">
+                        <p style="border-right: solid 1px; display: flex; margin: 10px; justify-content: center;">
+                            {{ item.stock }}
+                        </p>
+                    </td>
+
+                    <td style="border-right: solid 1px;">
+                        <p style="border-right: solid 1px; display: flex; margin: 10px; justify-content: center;">
+                            {{ item.sale }}
+                        </p>
+                    </td>
+                </tr>
+            {% endfor %}
+            
+
+        </table>
+    </div>
+{% endblock %}
