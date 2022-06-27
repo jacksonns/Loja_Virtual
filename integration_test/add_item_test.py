@@ -24,8 +24,7 @@ class TestAddItem:
         'seller_id': 'U0001',
         'name': 'Apple Watch', 
         'description': 'Apple Watch Series 5 (Cellular + GPS, 44 mm)',
-        'price_reais': '6254',
-        'price_cents': '10',
+        'price': '6,254.00',
         'stock': '2',
         'sale': '0',
         }, follow_redirects=True)

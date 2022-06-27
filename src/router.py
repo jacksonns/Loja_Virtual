@@ -81,16 +81,20 @@ def login():
 def sell():
    if request.method == 'POST':
       data = request.form
+      price = (data['price']).partition(".")
+      reais = (price[0].replace(",",""))[1:] or 0
+      cents = price[2] or 0
+
       try:
          user = UserRepository().get_user_by_id(data['seller_id'])
          item = Item(str(uuid.uuid4()), user,
                      data['name'], data['description'], 
-                     (int(data['price_reais']), int(data['price_cents'])), 
+                     (int(reais), int(cents)), 
                      int(data['stock']), int(data['sale']) )
          ItemRepository().add_item(item)
       except:
          return 'An error occurred', 400
-      return 'Submitted {}!'.format(data['name'])
+      return render_template('items.html')
    return render_template('sell.html')
 
 @app.route('/cart', methods=['GET', 'POST'])
